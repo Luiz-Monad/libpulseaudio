@@ -28,11 +28,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Checkout current repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Debug
         if: ${{ github.event.inputs.debug == 'true' }}
         run: |
@@ -51,6 +46,18 @@ jobs:
           git config --global init.defaultBranch master
           git config --global pull.rebase false
           git config --global core.autocrlf false
+
+      - name: Cache GIT Repository
+        uses: actions/cache@v3
+        with:
+          path: .
+          key: repo-${{ github.run_id }}
+          restore-keys: |
+            repo-
+
+      - name: Checkout GIT Repository 
+        run: |
+          git clone "git@github.com:${{ github.repository }}.git" . --branch master
 
       - name: Fetch GitLab PulseAudio into gitlab branch
         run: |
