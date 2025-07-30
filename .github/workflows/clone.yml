@@ -46,6 +46,7 @@ jobs:
           git config --global init.defaultBranch master
           git config --global pull.rebase false
           git config --global core.autocrlf false
+          git config --global advice.detachedHead false
 
       - name: Cache GIT Repository
         uses: actions/cache@v3
@@ -95,10 +96,10 @@ jobs:
           git remote -v
           echo "All branches:"
           git branch -a
-          echo "Tags (last 10):"
-          git tag -l | tail -10
+          echo "All tags:"
+          git tag -l
 
-      - name: Run Windows Path Fixer on GitLab Content
+      - name: Run Windows Path Fixer on GitLab Content and then Merge
         shell: pwsh
         env:
           DRY_RUN: ${{ github.event.inputs.dry_run }}
@@ -165,7 +166,7 @@ jobs:
           
           $isDryRun = $env:DRY_RUN -eq 'true'
           $branch = "gitlab"
-          $tmpBranchPrefix = "tmp-fix-"
+          $tmpBranchPrefix = "fix-"
           
           Write-Host "> Windows Path Fixer for Git" -ForegroundColor Cyan
           Write-Host "Processing branch: $branch"
@@ -191,7 +192,7 @@ jobs:
           $processedTags = @()
           
           foreach ($tag in $tags) {
-              Write-Host ">> Processing tag/ref: $tag" -ForegroundColor Cyan
+              Write-Host ">> Processing tag: $tag" -ForegroundColor Cyan
               
               # Checkout the tag/ref
               git checkout $tag
@@ -286,93 +287,151 @@ jobs:
               }
           }
           
-          # Return to target branch
-          git checkout $branch
-          
-          # Merge all fixed branches back into target branch
-          Write-Host "`nMerging fixed branches back into $branch branch..."
-          foreach ($tag in $processedTags) {
-              $workingBranch = "$tmpBranchPrefix$tag"
-              if (git show-ref --verify --quiet "refs/heads/$workingBranch") {
-                  Write-Host "Merging $workingBranch into $branch..."
-                  git merge $workingBranch --no-ff -m "Merge fixes from $tag"
-                  # Clean up the working branch
-                  git branch -D $workingBranch
-              }
-          }
-          
-          # Summary
-          Write-Host "> Path Fixing Summary:"
-          if ($isDryRun) {
-              Write-Host "Dry run completed. No changes were made."
-              Write-Host "Processed tags:`n  $($processedTags -join "`n  ")"
-          } else {
-              Write-Host "Path fixing completed for Git."
-              Write-Host "Fixed tags:`n  $($processedTags -join "`n  ")"
-          }
-
-      - name: Merge remote content into master
-        if: github.event.inputs.dry_run != 'true'
-        run: |
-          echo "Merging remote content into master..."
-          
-          # Checkout master branch
+          # Return to master branch for merging
           git checkout master
           
-          # Check if gitlab branch has any content
-          if ! git show-ref --verify --quiet refs/heads/gitlab; then
-            echo "GitLab branch does not exist, skipping merge"
-            exit 0
-          fi
+          # Merge the gitlab branch first
+          if (-not $isDryRun) {
+              Write-Host "> Merging gitlab branch into master..." -ForegroundColor Cyan
+              git merge gitlab --allow-unrelated-histories --no-ff -m "Merge GitLab PulseAudio updates"
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "Initial gitlab merge failed" -ForegroundColor Red
+                  exit 1
+              }
+              Write-Host "Successfully merged gitlab branch into master"
+          }
           
-          # Check for differences
-          if git diff --quiet master..gitlab; then
-            echo "No differences between master and gitlab branches"
-            exit 0
-          fi
+          # Now merge individual tag fix branches and update tags to point to merge commits
+          foreach ($tag in $processedTags) {
+              $workingBranch = "$tmpBranchPrefix$tag"
+
+              Write-Host ">> Merging fixes for tag: $tag" -ForegroundColor Cyan
+              if ($isDryRun) {
+                  Write-Host "Dry run: Would merge $workingBranch and update tag $tag"
+                  continue
+              }
+              
+              git merge $workingBranch --no-ff -m "Merge fixes for $tag"
+              
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "Failed to merge fixes for $tag" -ForegroundColor Red
+                  continue
+              }
+
+              Write-Host "Successfully merged fixes for $tag"
+              
+              # Delete the old tag and create a new one pointing to the merge commit
+              $tagDeleteResult = git tag -d $tag 2>$null
+              if ($LASTEXITCODE -eq 0) {
+                  Write-Host "Deleted old tag: $tag"
+              }
+              
+              # Create new tag pointing to the current commit (the merge commit)
+              git tag $tag -m "Tag $tag with Windows path fixes merged"
+              if ($LASTEXITCODE -eq 0) {
+                  $currentCommit = git rev-parse HEAD
+                  Write-Host "Updated tag $tag to point to merge commit: $currentCommit" -ForegroundColor Green
+              } else {
+                  Write-Host "Failed to create new tag for $tag" -ForegroundColor Red
+              }
+              
+              # Clean up the working branch
+              Write-Host "Cleaning up working branch: $workingBranch"
+              git branch -D $workingBranch
+          }
           
-          # Merge back
-          echo "Merging gitlab branch into master..."
-          git merge gitlab --allow-unrelated-histories --no-ff -m "Merge GitLab PulseAudio updates"
-          if [ $? -eq 0 ]; then
-            echo "Successfully merged gitlab branch into master"
-          else
-            echo "Merge failed, manual intervention may be required"
-            exit 1
+          # Store processed tags for summary
+          $processedTagsJson = $processedTags | ConvertTo-Json -Compress
+          "PROCESSED_TAGS=$processedTagsJson" >> $env:GITHUB_ENV
+          
+          # Summary
+          Write-Host "> Path Fixing and Merging Summary:" -ForegroundColor Cyan
+          if ($isDryRun) {
+              Write-Host "Dry run completed. No changes were made."
+              Write-Host "Would have processed tags:`n  $($processedTags -join "`n  ")"
+          } else {
+              Write-Host "Path fixing and merging completed."
+              Write-Host "Processed and merged tags:`n  $($processedTags -join "`n  ")"
+              Write-Host "All tags now point to merge commits in master branch"
+          }
+
+      - name: Push changes to GitHub
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          echo "Pushing changes to GitHub..."
+          
+          # Verify we're on master
+          current_branch=$(git branch --show-current)
+          if [ "$current_branch" != "master" ]; then
+            echo "Not on master branch, checking out master..."
+            git checkout master
           fi
           
           # Push the updated master branch
-          echo "Pushing updated master to GitHub..."
+          echo "Pushing updated master branch..."
           git push origin master
           
-          # Push any new tags that were created
-          echo "Pushing any new tags..."
-          git push origin --tags
+          if [ $? -eq 0 ]; then
+            echo "✅ Successfully pushed master branch"
+          else
+            echo "❌ Failed to push master branch"
+            exit 1
+          fi
+          
+          # Push all tags (including the updated ones)
+          echo "Pushing all updated tags..."
+          git push origin --tags --force
+          
+          if [ $? -eq 0 ]; then
+            echo "✅ Successfully pushed all tags"
+          else
+            echo "❌ Failed to push tags"
+            exit 1
+          fi
+          
+          echo "All changes successfully pushed to GitHub!"
 
       - name: Summary
         run: |
-          echo "=== PULSEAUDIO MIRROR AND FIX SUMMARY ===" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Process Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
-          echo "**Current branch:** $(git branch --show-current)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "All branches:" >> $GITHUB_STEP_SUMMARY
-          git branch -a >> $GITHUB_STEP_SUMMARY
-          echo "Recent commits on master (last 5):" >> $GITHUB_STEP_SUMMARY
-          git log --oneline -5 >> $GITHUB_STEP_SUMMARY
-          
+          echo "=== PULSEAUDIO MIRROR AND FIX SUMMARY ==="
+          echo ""
+          echo "**Process Date:** $(date -u)"
+          echo "**Current branch:** $(git branch --show-current)"
+          echo ""
+          echo "All branches:"
+          git branch -a
+          echo "All tags:"
+          git tag -l
+          echo "Recent commits on master (last 10):"
+          git log --oneline -10
+          echo "Total tags: $(git tag -l | wc -l)"
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            echo "**Mode:** Dry Run (no changes made)" >> $GITHUB_STEP_SUMMARY
+            echo "**Mode:** Dry Run (no changes made)"
           else
-            echo "**Mode:** Full Execution" >> $GITHUB_STEP_SUMMARY
-            echo "**Latest Commit on Master:**" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            git log --oneline -1 >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "**Mode:** Full Execution"
+            echo "**Latest Commit on Master:**"
+            echo '```'
+            git log --oneline -1
+            echo '```'
+            
+            # Show which tags were updated
+            if [ -n "$PROCESSED_TAGS" ] && [ "$PROCESSED_TAGS" != "null" ]; then
+              echo "**Updated Tags (now pointing to merge commits):**"
+              processed_tags=$(echo "$PROCESSED_TAGS" | jq -r '.[]' 2>/dev/null || echo "$PROCESSED_TAGS" | tr -d '[]"' | tr ',' '\n')
+              while IFS= read -r tag; do
+                if [ -n "$tag" ] && [ "$tag" != "null" ]; then
+                  commit_hash=$(git rev-parse "$tag" 2>/dev/null || echo "N/A")
+                  echo "- $tag -> $commit_hash"
+                fi
+              done <<< "$processed_tags"
+            fi
           fi
-          
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Process Steps:**" >> $GITHUB_STEP_SUMMARY
-          echo "1. ✅ Fetched GitLab PulseAudio into 'gitlab' branch" >> $GITHUB_STEP_SUMMARY
-          echo "2. ✅ Applied Windows path fixes to all tags and branches" >> $GITHUB_STEP_SUMMARY
-          echo "3. ✅ Merged fixed content into master branch" >> $GITHUB_STEP_SUMMARY
+          echo ""
+          echo "**Process Steps:**"
+          echo "1. ✅ Fetched GitLab PulseAudio into 'gitlab' branch"
+          echo "2. ✅ Applied Windows path fixes to all tags and branches"
+          echo "3. ✅ Merged fixed content into master branch (PowerShell)"
+          echo "4. ✅ Updated tags to point to merge commits in master"
+          if [ "${{ github.event.inputs.dry_run }}" != "true" ]; then
+            echo "5. ✅ Pushed all changes and updated tags to GitHub"
+          fi
