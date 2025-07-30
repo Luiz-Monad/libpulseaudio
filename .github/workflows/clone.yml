@@ -64,7 +64,7 @@ jobs:
           
           # Fetch all content from GitLab
           echo "Fetching from GitLab..."
-          git fetch r-gitlab --prune --tags
+          git fetch r-gitlab --prune --tags --force
           
           # Create or update the gitlab branch with GitLab's master
           echo "Setting up gitlab branch..."
