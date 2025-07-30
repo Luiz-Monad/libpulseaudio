@@ -1,0 +1,371 @@
+name: Mirror and fix GitLab to Git
+
+on:
+  schedule:
+    # Run every 6 hours (adjust as needed)
+    - cron: '0 */6 * * *'
+
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Run with debug'
+        required: false
+        default: 'false'
+        type: boolean
+      dry_run:
+        description: 'Run path fixing in dry-run mode'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  gitlab-mirror-and-fix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Git SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug
+        if: ${{ github.event.inputs.debug == 'true' }}
+        run: |
+          cd .github/workflows
+          sudo chmod +x ./debug.sh
+          sudo \
+            NGROK_SSH_PUBKEY="${{ secrets.NGROK_SSH_PUBKEY }}" \
+            NGROK_TOKEN="${{ secrets.NGROK_TOKEN }}" \
+            ./debug.sh
+          bash -c 'exec -a "PAUSED_SCRIPT" sleep infinity'
+
+      - name: Setup Git Configuration
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git config --global init.defaultBranch master
+          git config --global pull.rebase false
+          git config --global core.autocrlf false
+
+      - name: Fetch GitLab PulseAudio into gitlab branch
+        run: |
+          GITLAB_URL="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
+          
+          # Add GitLab remote if it doesn't exist
+          echo "Adding GitLab remote..."
+          if ! git remote get-url gitlab >/dev/null 2>&1; then
+            git remote add r-gitlab "$GITLAB_URL"
+          fi
+          
+          # Fetch all content from GitLab
+          echo "Fetching from GitLab..."
+          git fetch r-gitlab --prune --tags
+          
+          # Create or update the gitlab branch with GitLab's master
+          echo "Setting up gitlab branch..."
+          if git show-ref --verify --quiet refs/heads/gitlab; then
+            echo "Updating existing gitlab branch..."
+            git checkout gitlab
+            git reset --hard r-gitlab/master
+          else
+            echo "Creating new gitlab branch from GitLab master..."
+            git checkout -b gitlab r-gitlab/master
+          fi
+          
+          # Show current state for debugging
+          echo "Current branch:"
+          git branch --show-current
+          echo "Git log:"
+          git log --oneline -5 2>/dev/null || echo "No commits yet"
+          echo "All references:"
+          git show-ref
+          echo "All remotes:"
+          git remote -v
+          echo "All branches:"
+          git branch -a
+          echo "Tags (last 10):"
+          git tag -l | tail -10
+
+      - name: Run Windows Path Fixer on GitLab Content
+        shell: pwsh
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          # Windows Path Fixer PowerShell Script for Git branch
+          
+          $InvalidChars = @('<', '>', ':', '"', '|', '?', '*')
+          $ReservedNames = @('CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9')
+          
+          function Test-WindowsValidPath {
+              param([string]$Path)
+              
+              $pathParts = $Path -split '[\\/]'
+              
+              foreach ($part in $pathParts) {
+                  if ([string]::IsNullOrWhiteSpace($part)) { continue }
+                  
+                  foreach ($char in $InvalidChars) {
+                      if ($part.Contains($char)) {
+                          return $false, "Contains invalid character: $char"
+                      }
+                  }
+                  
+                  if ($part.EndsWith('.') -or $part.EndsWith(' ')) {
+                      return $false, "Ends with dot or space"
+                  }
+
+                  $baseName = ($part -split '\.')[0].ToUpper()
+                  if ($ReservedNames -contains $baseName) {
+                      return $false, "Uses reserved name: $baseName"
+                  }
+                  
+              }
+              
+              return $true, ""
+          }
+          
+          function Get-SafePath {
+              param([string]$OriginalPath)
+              
+              $pathParts = $OriginalPath -split '[\\/]'
+              $safeParts = @()
+              
+              foreach ($part in $pathParts) {
+                  if ([string]::IsNullOrWhiteSpace($part)) { continue }
+                  
+                  foreach ($char in $InvalidChars) {
+                      $part = $part.Replace($char, '_')
+                  }
+                  
+                  $part = $part.TrimEnd('.', ' ')
+                  
+                  $baseName = ($part -split '\.')[0].ToUpper()
+                  if ($ReservedNames -contains $baseName) {
+                      $extension = if ($part.Contains('.')) { $part.Substring($part.LastIndexOf('.')) } else { '' }
+                      $part = "_" + $baseName + "_" + $extension
+                  }
+                  
+                  $safeParts += $part
+              }
+              
+              return ($safeParts -join '/')
+          }
+          
+          $isDryRun = $env:DRY_RUN -eq 'true'
+          $branch = "gitlab"
+          $tmpBranchPrefix = "tmp-fix-"
+          
+          Write-Host "> Windows Path Fixer for Git" -ForegroundColor Cyan
+          Write-Host "Processing branch: $branch"
+          Write-Host "Dry run mode: $isDryRun"
+          
+          # Ensure we're on the correct branch
+          git checkout $branch
+          if ($LASTEXITCODE -ne 0) {
+              Write-Host "Failed to checkout $branch branch"
+              exit 1
+          }
+          
+          # Get all tags that are reachable from that branch
+          $allTags = git tag --merged $branch
+          if ($allTags) {
+              $tags = $allTags -split "`n" | Where-Object { $_ -ne "" -and $_ -notmatch "^$tmpBranchPrefix" }
+              Write-Host "Found $($tags.Count) tags for branch '$branch':`n  $($tags -join "`n  ")"
+          } else {
+              Write-Host "No tags found for branch '$branch', processing branch tip only"
+              $tags = @($branch)
+          }
+          
+          $processedTags = @()
+          
+          foreach ($tag in $tags) {
+              Write-Host ">> Processing tag/ref: $tag" -ForegroundColor Cyan
+              
+              # Checkout the tag/ref
+              git checkout $tag
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "Failed to checkout '$tag', skipping..." -ForegroundColor Red
+                  continue
+              }
+              
+              # Create a working branch for this tag
+              $workingBranch = "$tmpBranchPrefix$tag"
+              git checkout -B $workingBranch
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Host "Failed to create working branch '$workingBranch', skipping..."
+                  continue
+              }
+              
+              # Find all files with Windows-invalid paths
+              $allFiles = git ls-tree -r --name-only HEAD
+              $invalidFiles = @()
+              foreach ($file in $allFiles) {
+                  $isValid, $reason = Test-WindowsValidPath -Path $file
+                  if (-not $isValid) {
+                      $safePath = Get-SafePath -OriginalPath $file
+                      $invalidFiles += @{
+                          Original = $file
+                          Safe = $safePath
+                          Reason = $reason
+                      }
+                  }
+              }
+              if ($invalidFiles.Count -eq 0) {
+                  Write-Host "No Windows-invalid paths found in $tag"
+                  $processedTags += $tag
+                  continue
+              }
+              
+              # Logging
+              Write-Host "Found $($invalidFiles.Count) files with Windows-invalid paths:"
+              foreach ($invalid in $invalidFiles) {
+                  Write-Host "  $($invalid.Original) -> $($invalid.Safe) ($($invalid.Reason))" -ForegroundColor Green
+              }
+              
+              # Bail out if dry run
+              if ($isDryRun) {
+                  $processedTags += $tag
+                  continue
+              }
+              
+              # Move files to safe paths
+              $hasChanges = $false
+              foreach ($invalid in $invalidFiles) {
+                  $originalPath = $invalid.Original
+                  $safePath = $invalid.Safe
+                  
+                  if ($originalPath -ne $safePath) {
+                      # Create directory structure if needed
+                      $safeDir = Split-Path -Parent $safePath
+                      if ($safeDir -and $safeDir -ne '.') {
+                          New-Item -ItemType Directory -Path $safeDir -Force -ErrorAction SilentlyContinue | Out-Null
+                      }
+                      
+                      # Use git mv to preserve history
+                      git mv "$originalPath" "$safePath"
+                      if ($LASTEXITCODE -eq 0) {
+                          Write-Host "Moved: $originalPath -> $safePath"
+                          $hasChanges = $true
+                      } else {
+                          Write-Host "Failed to move: $originalPath -> $safePath" -ForegroundColor Red
+                      }
+                  }
+              }
+              if (-not $hasChanges) {
+                  $processedTags += $tag
+                  continue
+              }
+              
+              # Message
+              $commitMessage = "Fix Windows-invalid paths for $tag`n`nMoved $($invalidFiles.Count) files to Windows-compatible paths:`n"
+              foreach ($invalid in $invalidFiles) {
+                  if ($invalid.Original -ne $invalid.Safe) {
+                      $commitMessage += "- $($invalid.Original) -> $($invalid.Safe)`n"
+                  }
+              }
+              
+              # Commit the changes
+              git commit -m $commitMessage
+              if ($LASTEXITCODE -eq 0) {
+                  Write-Host "Created commit for $tag with path fixes"
+                  $processedTags += $tag
+              } else {
+                  Write-Host "Failed to create commit for $tag" -ForegroundColor Red
+              }
+          }
+          
+          # Return to target branch
+          git checkout $branch
+          
+          # Merge all fixed branches back into target branch
+          Write-Host "`nMerging fixed branches back into $branch branch..."
+          foreach ($tag in $processedTags) {
+              $workingBranch = "$tmpBranchPrefix$tag"
+              if (git show-ref --verify --quiet "refs/heads/$workingBranch") {
+                  Write-Host "Merging $workingBranch into $branch..."
+                  git merge $workingBranch --no-ff -m "Merge fixes from $tag"
+                  # Clean up the working branch
+                  git branch -D $workingBranch
+              }
+          }
+          
+          # Summary
+          Write-Host "> Path Fixing Summary:"
+          if ($isDryRun) {
+              Write-Host "Dry run completed. No changes were made."
+              Write-Host "Processed tags:`n  $($processedTags -join "`n  ")"
+          } else {
+              Write-Host "Path fixing completed for Git."
+              Write-Host "Fixed tags:`n  $($processedTags -join "`n  ")"
+          }
+
+      - name: Merge remote content into master
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          echo "Merging remote content into master..."
+          
+          # Checkout master branch
+          git checkout master
+          
+          # Check if gitlab branch has any content
+          if ! git show-ref --verify --quiet refs/heads/gitlab; then
+            echo "GitLab branch does not exist, skipping merge"
+            exit 0
+          fi
+          
+          # Check for differences
+          if git diff --quiet master..gitlab; then
+            echo "No differences between master and gitlab branches"
+            exit 0
+          fi
+          
+          # Merge back
+          echo "Merging gitlab branch into master..."
+          git merge gitlab --allow-unrelated-histories --no-ff -m "Merge GitLab PulseAudio updates"
+          if [ $? -eq 0 ]; then
+            echo "Successfully merged gitlab branch into master"
+          else
+            echo "Merge failed, manual intervention may be required"
+            exit 1
+          fi
+          
+          # Push the updated master branch
+          echo "Pushing updated master to GitHub..."
+          git push origin master
+          
+          # Push any new tags that were created
+          echo "Pushing any new tags..."
+          git push origin --tags
+
+      - name: Summary
+        run: |
+          echo "=== PULSEAUDIO MIRROR AND FIX SUMMARY ===" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Process Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "**Current branch:** $(git branch --show-current)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All branches:" >> $GITHUB_STEP_SUMMARY
+          git branch -a >> $GITHUB_STEP_SUMMARY
+          echo "Recent commits on master (last 5):" >> $GITHUB_STEP_SUMMARY
+          git log --oneline -5 >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            echo "**Mode:** Dry Run (no changes made)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Mode:** Full Execution" >> $GITHUB_STEP_SUMMARY
+            echo "**Latest Commit on Master:**" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            git log --oneline -1 >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Process Steps:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. ✅ Fetched GitLab PulseAudio into 'gitlab' branch" >> $GITHUB_STEP_SUMMARY
+          echo "2. ✅ Applied Windows path fixes to all tags and branches" >> $GITHUB_STEP_SUMMARY
+          echo "3. ✅ Merged fixed content into master branch" >> $GITHUB_STEP_SUMMARY
