@@ -203,8 +203,12 @@ jobs:
                   $_
               } -Descending
               
-              # Get the last 10 version tags
-              $tags = $versionTags | Select-Object -First 10
+              # Get the last 10 version tags and sort again ascending
+              $tags = $versionTags | Select-Object -First 10 | Sort-Object {
+                  Get-VersionSortKey $_
+              }, {
+                  $_
+              }
               
               Write-Host "Processing latest 10 version tags:"
               Write-Host "Selected version tags:"
