@@ -101,6 +101,23 @@ jobs:
           $InvalidChars = @('<', '>', ':', '"', '|', '?', '*')
           $ReservedNames = @('CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9')
           
+          function Get-VersionSortKey {
+              param([string]$VersionTag)
+              
+              # Simple regex to extract major.minor.patch (patch optional)
+              if ($VersionTag -match "^v(\d+)\.(\d+)(?:\.(\d+))?") {
+                  $major = [int]$matches[1]
+                  $minor = [int]$matches[2]
+                  $patch = if ($matches[3]) { [int]$matches[3] } else { 0 }
+                  
+                  # Create sortable number: major * 1000000 + minor * 1000 + patch
+                  return $major * 1000000 + $minor * 1000 + $patch
+              }
+              
+              # If it doesn't match the pattern, return 0 (will sort alphabetically among non-matches)
+              return 0
+          }
+          
           function Test-WindowsValidPath {
               param([string]$Path)
               
@@ -174,8 +191,25 @@ jobs:
           # Get all tags that are reachable from that branch
           $allTags = git tag --merged $branch
           if ($allTags) {
-              $tags = $allTags -split "`n" | Where-Object { $_ -ne "" -and $_ -notmatch "^$tmpBranchPrefix" }
-              Write-Host "Found $($tags.Count) tags for branch '$branch':`n  $($tags -join "`n  ")"
+              $filteredTags = $allTags -split "`n" | Where-Object { $_ -ne "" -and $_ -notmatch "^$tmpBranchPrefix" }
+              Write-Host "Found $($filteredTags.Count) total tags for branch '$branch'"
+              
+              # Filter and sort version tags
+              $versionTags = $filteredTags | Where-Object { $_ -match "^v\d+" } | Sort-Object {
+                  # First sort by numeric version
+                  Get-VersionSortKey $_
+              }, {
+                  # Then sort alphabetically for same versions (handles postfixes like -test1, -dev)
+                  $_
+              } -Descending
+              
+              # Get the last 10 version tags
+              $tags = $versionTags | Select-Object -First 10
+              
+              Write-Host "Processing latest 10 version tags:"
+              Write-Host "Selected version tags:"
+              $tags | ForEach-Object { Write-Host "  $_" }
+              Write-Host "Total tags to process: $($tags.Count)"
           } else {
               Write-Host "No tags found for branch '$branch', processing branch tip only"
               $tags = @($branch)
