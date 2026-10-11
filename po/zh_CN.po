@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.freedesktop.org/pulseaudio/pulseaudio/"
 "issues/new\n"
 "POT-Creation-Date: 2022-06-18 09:49+0300\n"
-"PO-Revision-Date: 2023-12-22 16:37+0000\n"
-"Last-Translator: Charles Lee <lchopn@gmail.com>\n"
+"PO-Revision-Date: 2026-10-12 11:18+0000\n"
+"Last-Translator: Kung Kun <kun17.kung317@silomails.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.fedoraproject.org/"
 "projects/pulseaudio/pulseaudio/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3\n"
+"X-Generator: Weblate 2026.10.1\n"
 "X-Launchpad-Export-Date: 2016-03-22 13:23+0000\n"
 
 #: src/daemon/cmdline.c:113
@@ -169,13 +169,12 @@ msgid "--fail expects boolean argument"
 msgstr "--fail 布尔参数"
 
 #: src/daemon/cmdline.c:265
-#, fuzzy
 msgid ""
 "--log-level expects log level argument (either numeric in range 0..4 or one "
 "of error, warn, notice, info, debug)."
 msgstr ""
-"--log-level 日志级别参数(可以是数字 0～4 或者 debug、info、notice、warn 、"
-"error 中的一个)。"
+"--log-level 需要日志级别参数（可以是数字 0..4，或者是 error、warn、notice、"
+"info、debug 之一）。"
 
 #: src/daemon/cmdline.c:277
 msgid "--high-priority expects boolean argument"
@@ -1886,36 +1885,49 @@ msgstr ""
 "%s [选项]\n"
 "%s\n"
 "\n"
-"  -h, --help                        显示此帮助\n"
-"      --version                     显示版本\n"
+"  -h, --help                            显示此帮助\n"
+"      --version                         显示版本\n"
 "\n"
-"  -r, --record                      为录制创建连接\n"
-"  -p, --playback                    为回放创建连接\n"
+"  -r, --record                          为录制连接创建连接\n"
+"  -p, --playback                        为回放连接创建连接\n"
 "\n"
-"  -v, --verbose                     启用详述操作\n"
+"  -v, --verbose                         启用详述操作\n"
 "\n"
-"  -s, --server=服务器               要连接的服务器名\n"
-"  -d, --device=设备名               要连接的信宿/信源名称\n"
-"  -n, --client-name=名称            如何在服务器中调用此客户端\n"
-"      --stream-name=名称            如何在服务器中调用这个流\n"
-"      --volume=音量                 指定初始（线性）音量，取值在0..."
-"65536之间\n"
-"      --rate=SAMPLERATE             采样频率（单位 Hz，默认为44100）\n"
-"      --format=SAMPLEFORMAT         采样类型，s16le、s16be、u8、float32le "
-"之一\n"
-"                                    float32be、ulaw、alaw、s32le、s32be "
-"中取（默认为 s16ne）\n"
-"      --channels=CHANNELS           通道数，1为单声道，2为立体声（默认为2）\n"
-"      --channel-map=CHANNELMAP      取代默认值的通道映射表\n"
-"      --fix-format                  从流连接的信宿中提取采样格式。\n"
-"      --fix-rate                    从流连接的信宿中提取采样率。\n"
-"      --fix-channels                从流连接的信宿中提取通道数和通道映射表。"
-"\n"
-"      --no-remix                    不要对通道进行 upmix 或者 downmix 操作。"
-"\n"
-"      --no-remap                    根据下标而非名称来映射通道。\n"
-"      --latency=BYTES               请求指定字节数的延迟。\n"
-"      --process-time=BYTES          每次请求指定字节数的处理时间。\n"
+"  -s, --server=SERVER                   要连接的服务器名\n"
+"  -d, --device=DEVICE                   要连接的信宿/信源名称。可使用特殊名"
+"称 @DEFAULT_SINK@、@DEFAULT_SOURCE@ 和 @DEFAULT_MONITOR@ 分别指定默认的信宿、"
+"信源和监视器。\n"
+"  -n, --client-name=NAME                如何在服务器中调用此客户端\n"
+"      --stream-name=NAME                如何在服务器中调用这个流\n"
+"      --volume=VOLUME                   指定初始（线性）音量，取值在 "
+"0...65536 之间\n"
+"      --rate=SAMPLERATE                 采样频率（单位 Hz，默认为 44100）\n"
+"      --format=SAMPLEFORMAT             采样格式，请参阅\n"
+"                                        https://www.freedesktop.org/wiki/"
+"Software/PulseAudio/Documentation/User/SupportedAudioFormats/\n"
+"                                        以获取可选值（默认为 s16ne）\n"
+"      --channels=CHANNELS               通道数，1 为单声道，2 为立体声\n"
+"                                        （默认为 2）\n"
+"      --channel-map=CHANNELMAP          取代默认值的通道映射表\n"
+"      --fix-format                      从流连接的信宿/信源中获取采样\n"
+"                                        格式。\n"
+"      --fix-rate                        从流连接的信宿/信源中获取采样\n"
+"                                        率。\n"
+"      --fix-channels                    从流连接的信宿/信源中获取通道数\n"
+"                                        和通道映射表。\n"
+"      --no-remix                        不要对通道进行混音扩展或缩减。\n"
+"      --no-remap                        根据下标而非名称来映射通道。\n"
+"      --latency=BYTES                   请求指定字节数的延迟。\n"
+"      --process-time=BYTES              每次请求指定字节数的处理时间。\n"
+"      --latency-msec=MSEC               请求指定毫秒数的延迟。\n"
+"      --process-time-msec=MSEC          每次请求指定毫秒数的处理时间。\n"
+"      --property=PROPERTY=VALUE         将指定的属性设置为指定的值。\n"
+"      --raw                             录制/播放原始 PCM 数据。\n"
+"      --passthrough                     透传数据。\n"
+"      --file-format[=FFORMAT]           录制/播放带格式的 PCM 数据。\n"
+"      --list-file-formats               列出可用的文件格式。\n"
+"      --monitor-stream=INDEX            从具有指定索引 INDEX 的 sink 输入中录"
+"制。\n"
 
 #: src/utils/pacat.c:793
 msgid "Play back encoded audio files on a PulseAudio sound server."
@@ -2171,7 +2183,7 @@ msgstr "FRAMES"
 
 #: src/utils/pacmd.c:80 src/utils/pactl.c:2659
 msgid "RECIPIENT MESSAGE [MESSAGE_PARAMETERS]"
-msgstr ""
+msgstr "接收者 消息 [消息参数]"
 
 #: src/utils/pacmd.c:82
 #, c-format
@@ -2217,7 +2229,7 @@ msgstr "杀死 PulseAudio 守护程序失败。"
 
 #: src/utils/pacmd.c:181
 msgid "Daemon not responding."
-msgstr "守护进程未响应"
+msgstr "守护进程未响应。"
 
 #: src/utils/pacmd.c:213 src/utils/pacmd.c:322 src/utils/pacmd.c:340
 #, c-format
@@ -2240,19 +2252,17 @@ msgid "Failed to get statistics: %s"
 msgstr "获取统计数据失败：%s"
 
 #: src/utils/pactl.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Currently in use: %u block containing %s bytes total.\n"
 msgid_plural "Currently in use: %u blocks containing %s bytes total.\n"
-msgstr[0] "当前使用：%u 块，总共 %s 字节。\n"
-msgstr[1] "当前使用：%u 块，总共 %s 字节。\n"
+msgstr[0] "当前正在使用：%u 块，共计 %s 字节。\n"
 
 #: src/utils/pactl.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Allocated during whole lifetime: %u block containing %s bytes total.\n"
 msgid_plural ""
 "Allocated during whole lifetime: %u blocks containing %s bytes total.\n"
-msgstr[0] "整个生命周期所得分配：%u 块，总共 %s 字节。\n"
-msgstr[1] "整个生命周期所得分配：%u 块，总共 %s 字节。\n"
+msgstr[0] "整个生命周期分配：%u 块，共计 %s 字节。\n"
 
 #: src/utils/pactl.c:211
 #, c-format
@@ -2265,9 +2275,9 @@ msgid "Failed to get server information: %s"
 msgstr "获取服务器信息失败：%s"
 
 #: src/utils/pactl.c:224 src/utils/pactl.c:236
-#, fuzzy, c-format
+#, c-format
 msgid "%s\n"
-msgstr "%s %s\n"
+msgstr "%s\n"
 
 #: src/utils/pactl.c:281
 #, c-format
@@ -2311,72 +2321,67 @@ msgstr ""
 
 #: src/utils/pactl.c:320
 msgid "availability unknown"
-msgstr ""
+msgstr "可用性未知"
 
 #: src/utils/pactl.c:321
 msgid "available"
-msgstr ""
+msgstr "可用"
 
 #: src/utils/pactl.c:322
 msgid "not available"
-msgstr ""
+msgstr "不可用"
 
 #: src/utils/pactl.c:331 src/utils/pactl.c:355
-#, fuzzy
 msgid "Unknown"
 msgstr "未知"
 
 #: src/utils/pactl.c:332
 msgid "Aux"
-msgstr ""
+msgstr "辅助"
 
 #: src/utils/pactl.c:335
-#, fuzzy
 msgid "Line"
-msgstr "输入插孔"
+msgstr "线性输入"
 
 #: src/utils/pactl.c:336
 msgid "Mic"
-msgstr ""
+msgstr "麦克风"
 
 #: src/utils/pactl.c:338
-#, fuzzy
 msgid "Handset"
-msgstr "耳机"
+msgstr "手持电话"
 
 #: src/utils/pactl.c:339
 msgid "Earpiece"
-msgstr ""
+msgstr "听筒"
 
 #: src/utils/pactl.c:340
 msgid "SPDIF"
-msgstr ""
+msgstr "SPDIF"
 
 #: src/utils/pactl.c:341
 msgid "HDMI"
-msgstr ""
+msgstr "HDMI"
 
 #: src/utils/pactl.c:342
 msgid "TV"
-msgstr ""
+msgstr "TV"
 
 #: src/utils/pactl.c:345
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 #: src/utils/pactl.c:346
-#, fuzzy
 msgid "Bluetooth"
-msgstr "蓝牙输入"
+msgstr "蓝牙"
 
 #: src/utils/pactl.c:352
 msgid "Network"
-msgstr ""
+msgstr "网络"
 
 #: src/utils/pactl.c:353
-#, fuzzy
 msgid "Analog"
-msgstr "模拟单声道"
+msgstr "模拟"
 
 #: src/utils/pactl.c:567 src/utils/pactl.c:1834 src/utils/pactl.c:1852
 #: src/utils/pactl.c:1875 src/utils/pactl.c:1992
@@ -2429,13 +2434,13 @@ msgid "\tPorts:\n"
 msgstr "\t端口：\n"
 
 #: src/utils/pactl.c:708 src/utils/pactl.c:892
-#, fuzzy, c-format
+#, c-format
 msgid "\t\t%s: %s (type: %s, priority: %u%s%s, %s)\n"
-msgstr "\t\t%s: %s (信宿：%u，信源：%u，优先级：%u，可用性：%s)\n"
+msgstr "\t\t%s: %s (类型: %s, 优先级: %u%s%s, %s)\n"
 
 #: src/utils/pactl.c:710 src/utils/pactl.c:894 src/utils/pactl.c:1256
 msgid ", availability group: "
-msgstr ""
+msgstr "，可用性组： "
 
 #: src/utils/pactl.c:715 src/utils/pactl.c:899
 #, c-format
@@ -2583,7 +2588,7 @@ msgstr "\t活动配置：%s\n"
 #, c-format
 msgid ""
 "\t\t%s: %s (type: %s, priority: %u, latency offset: %<PRId64> usec%s%s, %s)\n"
-msgstr ""
+msgstr "\t\t%s：%s（类型：%s，优先级：%u，延迟偏移：%<PRId64> 微秒%s%s，%s）\n"
 
 #: src/utils/pactl.c:1261
 #, c-format
@@ -2727,27 +2732,27 @@ msgid "Failure: %s"
 msgstr "失败：%s"
 
 #: src/utils/pactl.c:1667
-#, fuzzy, c-format
+#, c-format
 msgid "Send message failed: %s"
-msgstr "read() 失败：%s"
+msgstr "发送消息失败：%s"
 
 #: src/utils/pactl.c:1695
 #, c-format
 msgid "list-handlers message failed: %s"
-msgstr ""
+msgstr "list-handlers 消息失败：%s"
 
 #: src/utils/pactl.c:1711 src/utils/pactl.c:1760
 msgid "list-handlers message response could not be parsed correctly"
-msgstr "无法正确分析列表处理程序消息响应"
+msgstr "无法正确解析 list-handlers 消息响应"
 
 #: src/utils/pactl.c:1718
 msgid "list-handlers message response is not a JSON array"
-msgstr "列表处理程序消息响应不是JSON数组"
+msgstr "list-handlers 消息响应不是JSON数组"
 
 #: src/utils/pactl.c:1729
 #, c-format
 msgid "list-handlers message response array element %d is not a JSON object"
-msgstr ""
+msgstr "list-handlers 消息响应中的数组元素 %d 不是 JSON 对象"
 
 #: src/utils/pactl.c:1800
 #, c-format
@@ -2755,15 +2760,14 @@ msgid "Failed to unload module: Module %s not loaded"
 msgstr "未能卸载模块：模块 %s 未加载"
 
 #: src/utils/pactl.c:1818
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to set volume: You tried to set volumes for %d channel, whereas "
 "channel(s) supported = %d\n"
 msgid_plural ""
 "Failed to set volume: You tried to set volumes for %d channels, whereas "
 "channel(s) supported = %d\n"
-msgstr[0] "设置音量失败：您尝试设置 %d 个声道的音量，而支持的声道数为 %d。\n"
-msgstr[1] "设置音量失败：您尝试设置 %d 个声道的音量，而支持的声道数为 %d。\n"
+msgstr[0] "设置音量失败：您尝试为 %d 个声道设置音量，而支持的声道数为 %d。\n"
 
 #: src/utils/pactl.c:2107
 #, c-format
@@ -2907,7 +2911,7 @@ msgstr ""
 "可用于指定默认的信宿、信源和监视器。\n"
 
 #: src/utils/pactl.c:2664
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  -h, --help                            Show this help\n"
@@ -2923,8 +2927,11 @@ msgstr ""
 "\n"
 "  -h, --help                            显示此帮助\n"
 "      --version                         显示版本\n"
-"  -s, --server=服务器                   要连接的服务器名\n"
-"  -n, --client-name=名称                向服务器提供的客户端自称\n"
+"\n"
+"  -f, --format=FORMAT                   输出格式。可为 \"normal\" 或 "
+"\"json\"\n"
+"  -s, --server=SERVER                   要连接的服务器名\n"
+"  -n, --client-name=NAME                向服务器提供的客户端自称\n"
 
 #: src/utils/pactl.c:2707
 #, c-format
@@ -2938,9 +2945,9 @@ msgstr ""
 "与 libpules %s 链接\n"
 
 #: src/utils/pactl.c:2751
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid format value '%s'"
-msgstr "无效的流名称 '%s'"
+msgstr "无效的格式值 '%s'"
 
 #: src/utils/pactl.c:2778
 #, c-format
@@ -3169,11 +3176,11 @@ msgid ""
 msgstr ""
 "%s [选项] -- 程序 [参数...]\n"
 "\n"
-"当指定程序运行时，临时挂起PulseAudio。\n"
+"在 PROGRAM 运行期间临时挂起 PulseAudio。\n"
 "\n"
-"-h, --help 显示此帮助\n"
-"--version 显示版本\n"
-"-s, --server=SERVER 要连接的服务器名\n"
+"  -h, --help                            显示此帮助\n"
+"      --version                         显示版本\n"
+"  -s, --server=SERVER                   要连接的服务器名\n"
 "\n"
 
 #: src/utils/pasuspender.c:267
