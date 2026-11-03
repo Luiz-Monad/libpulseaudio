@@ -29,8 +29,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.freedesktop.org/pulseaudio/pulseaudio/"
 "issues/new\n"
 "POT-Creation-Date: 2022-06-18 09:49+0300\n"
-"PO-Revision-Date: 2022-09-26 14:19+0000\n"
-"Last-Translator: Toni Estevez <toni.estevez@gmail.com>\n"
+"PO-Revision-Date: 2026-11-04 12:18+0000\n"
+"Last-Translator: David Medina <dmedinacpnl@gmail.com>\n"
 "Language-Team: Catalan <https://translate.fedoraproject.org/projects/"
 "pulseaudio/pulseaudio/ca/>\n"
 "Language: ca\n"
@@ -38,10 +38,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 2026.11\n"
 
 #: src/daemon/cmdline.c:113
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s [options]\n"
 "\n"
@@ -136,8 +136,8 @@ msgstr ""
 "      --high-priority[=BOOL]            Prova d'establir un nivell de \n"
 "                                        Prioritat alta (només disponible com "
 "a root,\n"
-"                                        amb SUID o amb un RLIMIT_NICE "
-"elevat)\n"
+"                                        amb SUID o amb un RLIMIT_NICE elevat)"
+"\n"
 "      --realtime[=BOOL]                 Intenta habilitar la programació en\n"
 "                                        en temps real (només disponible com "
 "a root,\n"
@@ -203,7 +203,6 @@ msgid "--fail expects boolean argument"
 msgstr "--fail necessita un argument booleà"
 
 #: src/daemon/cmdline.c:265
-#, fuzzy
 msgid ""
 "--log-level expects log level argument (either numeric in range 0..4 or one "
 "of error, warn, notice, info, debug)."
@@ -232,7 +231,6 @@ msgid "--use-pid-file expects boolean argument"
 msgstr "--use-pid-file necessita un argument booleà"
 
 #: src/daemon/cmdline.c:328
-#, fuzzy
 msgid ""
 "Invalid log target: use either 'syslog', 'journal', 'stderr' or 'auto' or a "
 "valid file name 'file:<path>', 'newfile:<path>'."
@@ -243,6 +241,8 @@ msgid ""
 "Invalid log target: use either 'syslog', 'stderr' or 'auto' or a valid file "
 "name 'file:<path>', 'newfile:<path>'."
 msgstr ""
+"Objectiu de registre no vàlid: utilitzeu «syslog», «stderr» o «auto» o un "
+"nom de fitxer vàlid «file:<path>», «newfile:<path>»."
 
 #: src/daemon/cmdline.c:338
 msgid "--log-time expects boolean argument"
@@ -270,7 +270,6 @@ msgid "--disable-shm expects boolean argument"
 msgstr "--disable-shm necessita un argument booleà"
 
 #: src/daemon/cmdline.c:397
-#, fuzzy
 msgid "--enable-memfd expects boolean argument"
 msgstr "--realtime necessita un argument booleà"
 
@@ -467,6 +466,8 @@ msgid ""
 "System mode refused for non-root user. Only starting the D-Bus server lookup "
 "service."
 msgstr ""
+"S'ha rebutjat el mode del sistema per a usuaris no arrel. Només s'està "
+"iniciant el servei de cerca del servidor D-Bus."
 
 #: src/daemon/main.c:788
 #, c-format
@@ -492,36 +493,32 @@ msgstr "L'opció --start no està suportada per a instàncies de sistema."
 #: src/daemon/main.c:867
 #, c-format
 msgid "User-configured server at %s, refusing to start/autospawn."
-msgstr ""
+msgstr "Servidor configurat per l'usuari a %s, es nega a iniciar/autoiniciar."
 
 #: src/daemon/main.c:873
 #, c-format
 msgid ""
 "User-configured server at %s, which appears to be local. Probing deeper."
-msgstr ""
+msgstr "Servidor configurat per l'usuari a %s, que sembla local. Aprofundint."
 
 #: src/daemon/main.c:878
-#, fuzzy
 msgid "Running in system mode, but --disallow-exit not set."
 msgstr ""
 "S'està executant en mode sistema, però no s'ha especificat l'opció --"
 "disallow-exit."
 
 #: src/daemon/main.c:881
-#, fuzzy
 msgid "Running in system mode, but --disallow-module-loading not set."
 msgstr ""
 "S'està executant en mode sistema, però no s'ha especificat l'opció --"
 "disallow-module-loading."
 
 #: src/daemon/main.c:884
-#, fuzzy
 msgid "Running in system mode, forcibly disabling SHM mode."
 msgstr ""
 "S'està executant en mode sistema, es deshabilitarà el mode SHM forçosament."
 
 #: src/daemon/main.c:889
-#, fuzzy
 msgid "Running in system mode, forcibly disabling exit idle time."
 msgstr ""
 "S'està executant en mode sistema, la sortida per temps d'inactivitat es "
@@ -560,7 +557,6 @@ msgid "Failed to get machine ID"
 msgstr "No s'ha pogut obtenir l'ID de la màquina"
 
 #: src/daemon/main.c:1145
-#, fuzzy
 msgid ""
 "OK, so you are running PA in system mode. Please make sure that you actually "
 "do want to do that.\n"
@@ -585,7 +581,6 @@ msgid "pa_core_new() failed."
 msgstr "S'ha produït un error en pa_core_new()."
 
 #: src/daemon/main.c:1268
-#, fuzzy
 msgid "command line arguments"
 msgstr "Massa arguments."
 
@@ -595,6 +590,8 @@ msgid ""
 "Failed to initialize daemon due to errors while executing startup commands. "
 "Source of commands: %s"
 msgstr ""
+"No s'ha pogut inicialitzar el dimoni a causa d'errors en executar les ordres "
+"d'inici. Font d'ordres: %s"
 
 #: src/daemon/main.c:1280
 msgid "Daemon startup without any loaded modules, refusing to work."
@@ -750,32 +747,26 @@ msgid "Digital Input (S/PDIF)"
 msgstr "Entrada digital (S/PDIF)"
 
 #: src/modules/alsa/alsa-mixer.c:2816
-#, fuzzy
 msgid "Multichannel Input"
 msgstr "Multicanal"
 
 #: src/modules/alsa/alsa-mixer.c:2817
-#, fuzzy
 msgid "Multichannel Output"
 msgstr "Multicanal"
 
 #: src/modules/alsa/alsa-mixer.c:2818
-#, fuzzy
 msgid "Game Output"
 msgstr "Sortida %s"
 
 #: src/modules/alsa/alsa-mixer.c:2819 src/modules/alsa/alsa-mixer.c:2820
-#, fuzzy
 msgid "Chat Output"
 msgstr "Sortida %s"
 
 #: src/modules/alsa/alsa-mixer.c:2821
-#, fuzzy
 msgid "Chat Input"
 msgstr "Entrada %s"
 
 #: src/modules/alsa/alsa-mixer.c:2822
-#, fuzzy
 msgid "Virtual Surround 7.1"
 msgstr "Envoltant analògic 7.1"
 
@@ -784,12 +775,10 @@ msgid "Analog Mono"
 msgstr "Mono analògic"
 
 #: src/modules/alsa/alsa-mixer.c:4564
-#, fuzzy
 msgid "Analog Mono (Left)"
 msgstr "Mono analògic"
 
 #: src/modules/alsa/alsa-mixer.c:4565
-#, fuzzy
 msgid "Analog Mono (Right)"
 msgstr "Mono analògic"
 
@@ -818,7 +807,6 @@ msgid "Headset"
 msgstr "Auricular"
 
 #: src/modules/alsa/alsa-mixer.c:4577 src/modules/alsa/alsa-mixer.c:4735
-#, fuzzy
 msgid "Speakerphone"
 msgstr "Altaveu"
 
@@ -915,18 +903,16 @@ msgid "Digital Stereo Duplex (IEC958)"
 msgstr "Dúplex estèreo digital (IEC958)"
 
 #: src/modules/alsa/alsa-mixer.c:4737
-#, fuzzy
 msgid "Multichannel Duplex"
 msgstr "Multicanal"
 
 #: src/modules/alsa/alsa-mixer.c:4738
-#, fuzzy
 msgid "Stereo Duplex"
 msgstr "Dúplex estèreo analògic"
 
 #: src/modules/alsa/alsa-mixer.c:4739
 msgid "Mono Chat + 7.1 Surround"
-msgstr ""
+msgstr "Xat mono + 7.1 Entorn"
 
 #: src/modules/alsa/alsa-mixer.c:4740 src/modules/alsa/module-alsa-card.c:197
 #: src/modules/bluetooth/module-bluez5-device.c:2263
@@ -944,7 +930,7 @@ msgid "%s Input"
 msgstr "Entrada %s"
 
 #: src/modules/alsa/alsa-sink.c:672 src/modules/alsa/alsa-sink.c:862
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ALSA woke us up to write new data to the device, but there was actually "
 "nothing to write.\n"
@@ -961,7 +947,7 @@ msgstr ""
 "snd_pcm_avail() ha retornat 0 o un altre valor < min_avail."
 
 #: src/modules/alsa/alsa-source.c:636 src/modules/alsa/alsa-source.c:802
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ALSA woke us up to read new data from the device, but there was actually "
 "nothing to read.\n"
@@ -978,7 +964,7 @@ msgstr ""
 "snd_pcm_avail() ha retornat 0 o un altre valor < min_avail."
 
 #: src/modules/alsa/alsa-util.c:1183 src/modules/alsa/alsa-util.c:1277
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "snd_pcm_avail() returned a value that is exceptionally large: %lu byte (%lu "
 "ms).\n"
@@ -990,18 +976,18 @@ msgid_plural ""
 "Most likely this is a bug in the ALSA driver '%s'. Please report this issue "
 "to the ALSA developers."
 msgstr[0] ""
-"snd_pcm_avail() ha retornat un valor excepcionalment gran: %lu bytes (%lu "
-"ms).\n"
+"snd_pcm_avail() ha retornat un valor excepcionalment gran: %lu bytes (%lu ms)"
+".\n"
 "Probablement es tracta d'un error del controlador de l'ALSA '%s'. Informeu "
 "d'aquest incident als desenvolupadors de l'ALSA."
 msgstr[1] ""
-"snd_pcm_avail() ha retornat un valor excepcionalment gran: %lu bytes (%lu "
-"ms).\n"
+"snd_pcm_avail() ha retornat un valor excepcionalment gran: %lu bytes (%lu ms)"
+".\n"
 "Probablement es tracta d'un error del controlador de l'ALSA '%s'. Informeu "
 "d'aquest incident als desenvolupadors de l'ALSA."
 
 #: src/modules/alsa/alsa-util.c:1249
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "snd_pcm_delay() returned a value that is exceptionally large: %li byte (%s"
 "%lu ms).\n"
@@ -1037,7 +1023,7 @@ msgstr ""
 "d'aquest problema als desenvolupadors d'ALSA."
 
 #: src/modules/alsa/alsa-util.c:1339
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "snd_pcm_mmap_begin() returned a value that is exceptionally large: %lu byte "
 "(%lu ms).\n"
@@ -1080,7 +1066,7 @@ msgstr "Auricular"
 
 #: src/modules/bluetooth/module-bluez5-device.c:1977 src/utils/pactl.c:347
 msgid "Portable"
-msgstr ""
+msgstr "Portable"
 
 #: src/modules/bluetooth/module-bluez5-device.c:1983 src/utils/pactl.c:349
 msgid "Car"
@@ -1088,7 +1074,7 @@ msgstr "Cotxe"
 
 #: src/modules/bluetooth/module-bluez5-device.c:1989 src/utils/pactl.c:350
 msgid "HiFi"
-msgstr ""
+msgstr "HiFi"
 
 #: src/modules/bluetooth/module-bluez5-device.c:1995 src/utils/pactl.c:351
 msgid "Phone"
@@ -1104,23 +1090,21 @@ msgstr "Captura d'alta fidelitat (origen A2DP)"
 
 #: src/modules/bluetooth/module-bluez5-device.c:2066
 msgid "Headset Head Unit (HSP)"
-msgstr ""
+msgstr "Unitat de Caps d'Auriculars (HSP)"
 
 #: src/modules/bluetooth/module-bluez5-device.c:2079
 msgid "Headset Audio Gateway (HSP)"
-msgstr ""
+msgstr "Passarel·la d'àudio d'auriculars (HSP)"
 
 #: src/modules/bluetooth/module-bluez5-device.c:2092
 msgid "Handsfree Head Unit (HFP)"
-msgstr ""
+msgstr "Unitat de Capçalera lliure de mans (HFP)"
 
 #: src/modules/bluetooth/module-bluez5-device.c:2105
-#, fuzzy
 msgid "Handsfree Audio Gateway (HFP)"
 msgstr "Passarel·la de mans lliures"
 
 #: src/modules/echo-cancel/module-echo-cancel.c:59
-#, fuzzy
 msgid ""
 "source_name=<name for the source> source_properties=<properties for the "
 "source> source_master=<name of source to filter> sink_name=<name for the "
@@ -1137,12 +1121,12 @@ msgstr ""
 "master=<nom del conducte del filtre> format=<format de mostra> rate=<ràtio "
 "de mostra> channels=<nombre de canals> channel_map=<mapa de canals> "
 "pulgin=<nom del connector ladspa> label=<etiqueta del connector ladspa> "
-"control=<llista separada per comes dels valors de control d'entrada>"
+"control=<llista separada per comes dels valors de control d'entrada> "
 
 #. add on profile
 #: src/modules/macosx/module-coreaudio-device.c:825
 msgid "On"
-msgstr ""
+msgstr "Activa"
 
 #: src/modules/module-allow-passthrough.c:71
 #: src/modules/module-always-sink.c:80
@@ -1154,16 +1138,14 @@ msgid "Always keeps at least one sink loaded even if it's a null one"
 msgstr "Conserva sempre almenys un conducte carregat fins i tot si és el nul"
 
 #: src/modules/module-always-source.c:35
-#, fuzzy
 msgid "Always keeps at least one source loaded even if it's a null one"
 msgstr "Conserva sempre almenys un conducte carregat fins i tot si és el nul"
 
 #: src/modules/module-equalizer-sink.c:68
 msgid "General Purpose Equalizer"
-msgstr ""
+msgstr "Equalitzador de propòsit general"
 
 #: src/modules/module-equalizer-sink.c:72
-#, fuzzy
 msgid ""
 "sink_name=<name of the sink> sink_properties=<properties for the sink> "
 "sink_master=<sink to connect to> format=<sample format> rate=<sample rate> "
@@ -1174,24 +1156,23 @@ msgstr ""
 "master=<nom del conducte del filtre> format=<format de mostra> rate=<ràtio "
 "de mostra> channels=<nombre de canals> channel_map=<mapa de canals> "
 "pulgin=<nom del connector ladspa> label=<etiqueta del connector ladspa> "
-"control=<llista separada per comes dels valors de control d'entrada>"
+"control=<llista separada per comes dels valors de control d'entrada> "
 
 #: src/modules/module-equalizer-sink.c:1097
 #: src/modules/module-equalizer-sink.c:1220
 #, c-format
 msgid "FFT based equalizer on %s"
-msgstr ""
+msgstr "equalitzador basat en FFT a %s"
 
 #: src/modules/module-filter-apply.c:47
 msgid "autoclean=<automatically unload unused filters?>"
-msgstr ""
+msgstr "autoclean {<automatically unload unused filters?>"
 
 #: src/modules/module-ladspa-sink.c:50
 msgid "Virtual LADSPA sink"
 msgstr "Conducte virtual LADSPA"
 
 #: src/modules/module-ladspa-sink.c:54
-#, fuzzy
 msgid ""
 "sink_name=<name for the sink> sink_properties=<properties for the sink> "
 "sink_input_properties=<properties for the sink input> master=<name of sink "
@@ -1207,7 +1188,7 @@ msgstr ""
 "master=<nom del conducte del filtre> format=<format de mostra> rate=<ràtio "
 "de mostra> channels=<nombre de canals> channel_map=<mapa de canals> "
 "pulgin=<nom del connector ladspa> label=<etiqueta del connector ladspa> "
-"control=<llista separada per comes dels valors de control d'entrada>"
+"control=<llista separada per comes dels valors de control d'entrada> "
 
 #: src/modules/module-null-sink.c:46
 msgid "Clocked NULL sink"
@@ -1218,7 +1199,7 @@ msgid "Null Output"
 msgstr "Sortida nul·la"
 
 #: src/modules/module-null-sink.c:368 src/utils/pactl.c:2064
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to set format: invalid format string %s"
 msgstr "No s'ha pogut obtenir la informació de la font: %s"
 
@@ -1250,14 +1231,13 @@ msgstr "Túnel per %s@%s"
 #: src/modules/module-tunnel-source-new.c:684
 #, c-format
 msgid "Tunnel to %s/%s"
-msgstr ""
+msgstr "Túnel a %s/%s"
 
 #: src/modules/module-virtual-surround-sink.c:50
 msgid "Virtual surround sink"
-msgstr ""
+msgstr "Embornal envoltant virtual"
 
 #: src/modules/module-virtual-surround-sink.c:54
-#, fuzzy
 msgid ""
 "sink_name=<name for the sink> sink_properties=<properties for the sink> "
 "master=<name of sink to filter> sink_master=<name of sink to filter> "
@@ -1271,16 +1251,15 @@ msgstr ""
 "master=<nom del conducte del filtre> format=<format de mostra> rate=<ràtio "
 "de mostra> channels=<nombre de canals> channel_map=<mapa de canals> "
 "pulgin=<nom del connector ladspa> label=<etiqueta del connector ladspa> "
-"control=<llista separada per comes dels valors de control d'entrada>"
+"control=<llista separada per comes dels valors de control d'entrada> "
 
 #: src/modules/raop/module-raop-discover.c:295
-#, fuzzy
 msgid "Unknown device model"
 msgstr "Codi d'error desconegut"
 
 #: src/modules/raop/raop-sink.c:689
 msgid "RAOP standard profile"
-msgstr ""
+msgstr "Perfil estàndard RAOP"
 
 #: src/modules/reserve-wrap.c:149
 msgid "PulseAudio Sound Server"
@@ -1312,7 +1291,7 @@ msgstr "Posterior dreta"
 
 #: src/pulse/channelmap.c:113
 msgid "Subwoofer"
-msgstr ""
+msgstr "Subwoofer"
 
 #: src/pulse/channelmap.c:115
 msgid "Front Left-of-center"
@@ -1519,7 +1498,7 @@ msgstr "Ha fallat xcb_connect()"
 
 #: src/pulse/client-conf-x11.c:66 src/utils/pax11publish.c:102
 msgid "xcb_connection_has_error() returned true"
-msgstr ""
+msgstr "xcbconnectionhaserror() ha retornat cert"
 
 #: src/pulse/client-conf-x11.c:102
 msgid "Failed to parse cookie data"
@@ -1563,6 +1542,9 @@ msgid ""
 "e.g. happen if you try to connect to a non-root PulseAudio as a root user, "
 "over the native protocol. Don't do that.)"
 msgstr ""
+"XDGRUNTIMEDIR (%s) no és propietat nostra (uid %d), sinó de uid %d! (Això "
+"podria passar si intenteu connectar-vos a un PulseAudio no arrel com a "
+"usuari root, a través del protocol natiu. No ho facis.)"
 
 #: src/pulsecore/core-util.h:97
 msgid "yes"
@@ -1579,17 +1561,19 @@ msgstr "No s'ha pogut accedir al bloqueig d'autospawn."
 #: src/pulsecore/log.c:165
 #, c-format
 msgid "Failed to open target file '%s'."
-msgstr ""
+msgstr "No s'ha pogut obrir el fitxer de destinació '%s'."
 
 #: src/pulsecore/log.c:188
 #, c-format
 msgid ""
 "Tried to open target file '%s', '%s.1', '%s.2' ... '%s.%d', but all failed."
 msgstr ""
+"S'ha provat d'obrir el fitxer de destinació «%s», «%s.1», «%s.2» ... «%s.%d"
+"», però tot ha fallat."
 
 #: src/pulsecore/log.c:651
 msgid "Invalid log target."
-msgstr ""
+msgstr "Objectiu de registre no vàlid."
 
 #: src/pulsecore/sink.c:3609
 msgid "Built-in Audio"
@@ -1637,7 +1621,7 @@ msgstr "S'ha esgotat el temps"
 
 #: src/pulse/error.c:47
 msgid "No authentication key"
-msgstr ""
+msgstr "No hi ha cap clau d'autenticació"
 
 #: src/pulse/error.c:48
 msgid "Internal error"
@@ -1789,7 +1773,7 @@ msgstr ""
 #: src/utils/pacat.c:342
 #, c-format
 msgid "Connected to device %s (index: %u, suspended: %s)."
-msgstr ""
+msgstr "Connectat al dispositiu %s (índex: %u, suspès: %s)."
 
 #: src/utils/pacat.c:352
 #, c-format
@@ -1837,15 +1821,15 @@ msgstr "Els atributs del flux de memòria intermèdia han canviat.%s"
 
 #: src/utils/pacat.c:415
 msgid "Cork request stack is empty: corking stream"
-msgstr ""
+msgstr "La pila de sol·licituds de suro està buida: flux de suro"
 
 #: src/utils/pacat.c:421
 msgid "Cork request stack is empty: uncorking stream"
-msgstr ""
+msgstr "La pila de sol·licituds de suro està buida: s'està descorbant el flux"
 
 #: src/utils/pacat.c:425
 msgid "Warning: Received more uncork requests than cork requests."
-msgstr ""
+msgstr "Avís: s'han rebut més sol·licituds sense suro que sol·licituds de suro."
 
 #: src/utils/pacat.c:450
 #, c-format
@@ -1865,7 +1849,7 @@ msgstr "Ha fallat pa_stream_connect_playback(): %s"
 #: src/utils/pacat.c:497
 #, c-format
 msgid "Failed to set monitor stream: %s"
-msgstr ""
+msgstr "No s'ha pogut establir el flux del monitor: %s"
 
 #: src/utils/pacat.c:501
 #, c-format
@@ -1911,7 +1895,7 @@ msgid "pa_stream_update_timing_info() failed: %s"
 msgstr "Ha fallat pa_stream_update_timing_info(): %s"
 
 #: src/utils/pacat.c:676
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s [options]\n"
 "%s\n"
@@ -2037,24 +2021,30 @@ msgstr ""
 
 #: src/utils/pacat.c:793
 msgid "Play back encoded audio files on a PulseAudio sound server."
-msgstr ""
+msgstr "Reprodueix fitxers d'àudio codificats en un servidor de so PulseAudio."
 
 #: src/utils/pacat.c:797
 msgid ""
 "Capture audio data from a PulseAudio sound server and write it to a file."
 msgstr ""
+"Captura dades d'àudio d'un servidor de so PulseAudio i escriu-les a un "
+"fitxer."
 
 #: src/utils/pacat.c:801
 msgid ""
 "Capture audio data from a PulseAudio sound server and write it to STDOUT or "
 "the specified file."
 msgstr ""
+"Captura dades d'àudio d'un servidor de so PulseAudio i escriu-les a STDOUT o "
+"al fitxer especificat."
 
 #: src/utils/pacat.c:805
 msgid ""
 "Play back audio data from STDIN or the specified file on a PulseAudio sound "
 "server."
 msgstr ""
+"Reprodueix dades d'àudio de l'STDIN o del fitxer especificat en un servidor "
+"de so PulseAudio."
 
 #: src/utils/pacat.c:819
 #, c-format
@@ -2104,7 +2094,7 @@ msgstr "Format desconegut de fitxer %s."
 
 #: src/utils/pacat.c:1000
 msgid "Failed to parse the argument for --monitor-stream"
-msgstr ""
+msgstr "No s'ha pogut analitzar l'argument per a --monitor-stream"
 
 #: src/utils/pacat.c:1011
 msgid "Invalid sample specification"
@@ -2204,29 +2194,29 @@ msgstr "Ha fallat el pa_mainloop_run()."
 
 #: src/utils/pacmd.c:51 src/utils/pactl.c:2643
 msgid "NAME [ARGS ...]"
-msgstr ""
+msgstr "NOM [ARGS ...]"
 
 #: src/utils/pacmd.c:52 src/utils/pacmd.c:60 src/utils/pactl.c:2644
 #: src/utils/pactl.c:2651 src/utils/pactl.c:2652
 msgid "NAME|#N"
-msgstr ""
+msgstr "NOMNN"
 
 #: src/utils/pacmd.c:53 src/utils/pacmd.c:63 src/utils/pactl.c:2642
 #: src/utils/pactl.c:2649
 msgid "NAME"
-msgstr ""
+msgstr "NOM"
 
 #: src/utils/pacmd.c:54
 msgid "NAME|#N VOLUME"
-msgstr ""
+msgstr "NOM|#N VOLUM"
 
 #: src/utils/pacmd.c:55
 msgid "#N VOLUME"
-msgstr ""
+msgstr "VOLUM  N"
 
 #: src/utils/pacmd.c:56 src/utils/pacmd.c:70 src/utils/pactl.c:2646
 msgid "NAME|#N 1|0"
-msgstr ""
+msgstr "NOM 1N 100"
 
 #: src/utils/pacmd.c:57
 msgid "#N 1|0"
@@ -2234,11 +2224,11 @@ msgstr "#N 1|0"
 
 #: src/utils/pacmd.c:58
 msgid "NAME|#N KEY=VALUE"
-msgstr ""
+msgstr "NOM=N CLAU=VALOR"
 
 #: src/utils/pacmd.c:59
 msgid "#N KEY=VALUE"
-msgstr ""
+msgstr "VALOR"
 
 #: src/utils/pacmd.c:61
 msgid "#N"
@@ -2246,23 +2236,23 @@ msgstr "#N"
 
 #: src/utils/pacmd.c:62
 msgid "NAME SINK|#N"
-msgstr ""
+msgstr "NOM SINKNN"
 
 #: src/utils/pacmd.c:64 src/utils/pacmd.c:65
 msgid "NAME FILENAME"
-msgstr ""
+msgstr "NOM DEL NOM DEL FITXER"
 
 #: src/utils/pacmd.c:66
 msgid "PATHNAME"
-msgstr ""
+msgstr "NOM DEL CAMÍ"
 
 #: src/utils/pacmd.c:67
 msgid "FILENAME SINK|#N"
-msgstr ""
+msgstr "NOMFITXER SINK|#N"
 
 #: src/utils/pacmd.c:69 src/utils/pactl.c:2645
 msgid "#N SINK|SOURCE"
-msgstr ""
+msgstr "FONT  N SINK"
 
 #: src/utils/pacmd.c:71 src/utils/pacmd.c:77 src/utils/pacmd.c:78
 msgid "1|0"
@@ -2270,31 +2260,31 @@ msgstr "1|0"
 
 #: src/utils/pacmd.c:72 src/utils/pactl.c:2647
 msgid "CARD PROFILE"
-msgstr ""
+msgstr "PERFIL DE LA TARGETA"
 
 #: src/utils/pacmd.c:73 src/utils/pactl.c:2650
 msgid "NAME|#N PORT"
-msgstr ""
+msgstr "PORT NAME PORTN"
 
 #: src/utils/pacmd.c:74 src/utils/pactl.c:2658
 msgid "CARD-NAME|CARD-#N PORT OFFSET"
-msgstr ""
+msgstr "TARGETA-NOMCARDTARGETA- PORTN DESPLAÇAMENT DEL PORT"
 
 #: src/utils/pacmd.c:75
 msgid "TARGET"
-msgstr ""
+msgstr "OBJECTIU"
 
 #: src/utils/pacmd.c:76
 msgid "NUMERIC-LEVEL"
-msgstr ""
+msgstr "NIVELL NUMÈRIC"
 
 #: src/utils/pacmd.c:79
 msgid "FRAMES"
-msgstr ""
+msgstr "FOTOGRAMES"
 
 #: src/utils/pacmd.c:80 src/utils/pactl.c:2659
 msgid "RECIPIENT MESSAGE [MESSAGE_PARAMETERS]"
-msgstr ""
+msgstr "MISSATGE DEL DESTINATARI [PARÀMETRES DE MISSATGE]"
 
 #: src/utils/pacmd.c:82
 #, c-format
@@ -2304,6 +2294,10 @@ msgid ""
 "      --version                         Show version\n"
 "When no command is given pacmd starts in the interactive mode.\n"
 msgstr ""
+"\n"
+"  -h, --help Mostra aquesta ajuda\n"
+"      --version Mostra la versió\n"
+"Quan no es dona cap ordre, pacmd comença en el mode interactiu.\n"
 
 #: src/utils/pacmd.c:129
 #, c-format
@@ -2312,6 +2306,9 @@ msgid ""
 "Compiled with libpulse %s\n"
 "Linked with libpulse %s\n"
 msgstr ""
+"pacmd %s\n"
+"Compilat amb libpulse %s\n"
+"S'ha enllaçat amb la libpulse %s\n"
 
 #: src/utils/pacmd.c:143
 msgid "No PulseAudio daemon running, or not running as session daemon."
@@ -2358,7 +2355,7 @@ msgid "Failed to get statistics: %s"
 msgstr "No s'han pogut obtenir les estadístiques: %s"
 
 #: src/utils/pactl.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Currently in use: %u block containing %s bytes total.\n"
 msgid_plural "Currently in use: %u blocks containing %s bytes total.\n"
 msgstr[0] ""
@@ -2367,7 +2364,7 @@ msgstr[1] ""
 "Actualment s'estan utilitzant: %u blocs que contenen %s bytes en total.\n"
 
 #: src/utils/pactl.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Allocated during whole lifetime: %u block containing %s bytes total.\n"
 msgid_plural ""
 "Allocated during whole lifetime: %u blocks containing %s bytes total.\n"
@@ -2387,7 +2384,7 @@ msgid "Failed to get server information: %s"
 msgstr "No s'ha pogut obtenir la informació del servidor: %s"
 
 #: src/utils/pactl.c:224 src/utils/pactl.c:236
-#, fuzzy, c-format
+#, c-format
 msgid "%s\n"
 msgstr "%s %s\n"
 
@@ -2401,6 +2398,12 @@ msgid ""
 "Client Index: %u\n"
 "Tile Size: %zu\n"
 msgstr ""
+"Cadena del servidor: %s\n"
+"Versió del protocol de la biblioteca: %u\n"
+"Versió del protocol del servidor: %u\n"
+"És local: %s\n"
+"Índex del client: %u\n"
+"Mida de la tessel·la: %zu\n"
 
 #: src/utils/pactl.c:294
 #, c-format
@@ -2427,70 +2430,65 @@ msgstr ""
 
 #: src/utils/pactl.c:320
 msgid "availability unknown"
-msgstr ""
+msgstr "disponibilitat desconeguda"
 
 #: src/utils/pactl.c:321
 msgid "available"
-msgstr ""
+msgstr "disponible"
 
 #: src/utils/pactl.c:322
 msgid "not available"
-msgstr ""
+msgstr "no disponible"
 
 #: src/utils/pactl.c:331 src/utils/pactl.c:355
-#, fuzzy
 msgid "Unknown"
 msgstr "desconegut"
 
 #: src/utils/pactl.c:332
 msgid "Aux"
-msgstr ""
+msgstr "Aux"
 
 #: src/utils/pactl.c:335
-#, fuzzy
 msgid "Line"
 msgstr "Entrada de línia"
 
 #: src/utils/pactl.c:336
 msgid "Mic"
-msgstr ""
+msgstr "Mic"
 
 #: src/utils/pactl.c:338
-#, fuzzy
 msgid "Handset"
 msgstr "Auricular"
 
 #: src/utils/pactl.c:339
 msgid "Earpiece"
-msgstr ""
+msgstr "Arbre"
 
 #: src/utils/pactl.c:340
 msgid "SPDIF"
-msgstr ""
+msgstr "SPDIF"
 
 #: src/utils/pactl.c:341
 msgid "HDMI"
-msgstr ""
+msgstr "HDMI"
 
 #: src/utils/pactl.c:342
 msgid "TV"
-msgstr ""
+msgstr "TV"
 
 #: src/utils/pactl.c:345
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 #: src/utils/pactl.c:346
-#, fuzzy
 msgid "Bluetooth"
 msgstr "Entrada bluetooth"
 
 #: src/utils/pactl.c:352
 msgid "Network"
-msgstr ""
+msgstr "Xarxa"
 
 #: src/utils/pactl.c:353
-#, fuzzy
 msgid "Analog"
 msgstr "Mono analògic"
 
@@ -2521,6 +2519,23 @@ msgid ""
 "\tProperties:\n"
 "\t\t%s\n"
 msgstr ""
+"Sink  %u\n"
+"\tEstat: %s\n"
+"\tNom: %s\n"
+"\tDescripció: %s\n"
+"\tConductor: %s\n"
+"\tEspecificació de mostra: %s\n"
+"\tMapa de canals: %s\n"
+"\tMòdul Propietari: %u\n"
+"\tSilencia: %s\n"
+"\tVolum: %s\n"
+"\t        saldo %0.2f\n"
+"\tVolum base: %s\n"
+"\tFont del monitor: %s\n"
+"\tLatència: %0.0f usec, configurat %0.0f usec\n"
+"\tBanderes: %s%s%s%s%s%s%s\n"
+"\tPropietats:\n"
+"\t\t%s\n"
 
 #: src/utils/pactl.c:706 src/utils/pactl.c:890 src/utils/pactl.c:1251
 #, c-format
@@ -2530,11 +2545,11 @@ msgstr "\tPorts:\n"
 #: src/utils/pactl.c:708 src/utils/pactl.c:892
 #, c-format
 msgid "\t\t%s: %s (type: %s, priority: %u%s%s, %s)\n"
-msgstr ""
+msgstr "\t\t%s: %s (tipus: %s, prioritat: %u%s%s, %s)\n"
 
 #: src/utils/pactl.c:710 src/utils/pactl.c:894 src/utils/pactl.c:1256
 msgid ", availability group: "
-msgstr ""
+msgstr ", grup de disponibilitat: "
 
 #: src/utils/pactl.c:715 src/utils/pactl.c:899
 #, c-format
@@ -2573,6 +2588,23 @@ msgid ""
 "\tProperties:\n"
 "\t\t%s\n"
 msgstr ""
+"Font  %u\n"
+"\tEstat: %s\n"
+"\tNom: %s\n"
+"\tDescripció: %s\n"
+"\tConductor: %s\n"
+"\tEspecificació de mostra: %s\n"
+"\tMapa de canals: %s\n"
+"\tMòdul Propietari: %u\n"
+"\tSilencia: %s\n"
+"\tVolum: %s\n"
+"\t        saldo %0.2f\n"
+"\tVolum base: %s\n"
+"\tMonitor de l'enllaç: %s\n"
+"\tLatència: %0.0f usec, configurat %0.0f usec\n"
+"\tBanderes: %s%s%s%s%s%s\n"
+"\tPropietats:\n"
+"\t\t%s\n"
 
 #: src/utils/pactl.c:877 src/utils/pactl.c:962 src/utils/pactl.c:1062
 #: src/utils/pactl.c:1232 src/utils/pactl.c:1384 src/utils/pactl.c:1385
@@ -2654,7 +2686,7 @@ msgstr "\tPerfils:\n"
 #: src/utils/pactl.c:1240
 #, c-format
 msgid "\t\t%s: %s (sinks: %u, sources: %u, priority: %u, available: %s)\n"
-msgstr ""
+msgstr "\t\t%s: %s (envia: %u, fonts: %u, prioritat: %u, disponible: %s)\n"
 
 #: src/utils/pactl.c:1245
 #, c-format
@@ -2666,6 +2698,8 @@ msgstr "\tPerfil actiu: %s\n"
 msgid ""
 "\t\t%s: %s (type: %s, priority: %u, latency offset: %<PRId64> usec%s%s, %s)\n"
 msgstr ""
+"\t\t%s: %s (tipus: %s, prioritat: %u, desplaçament de latència: %<PRId64> "
+"usec%s%s, %s)\n"
 
 #: src/utils/pactl.c:1261
 #, c-format
@@ -2679,7 +2713,7 @@ msgstr ""
 #: src/utils/pactl.c:1265
 #, c-format
 msgid "\t\t\tPart of profile(s): %s"
-msgstr ""
+msgstr "\t\t\tPart del/s perfil/s: %s"
 
 #: src/utils/pactl.c:1290 src/utils/pactl.c:1954 src/utils/pactl.c:2022
 #, c-format
@@ -2707,6 +2741,23 @@ msgid ""
 "\tProperties:\n"
 "\t\t%s\n"
 msgstr ""
+"Entrada d'enllaç  %u\n"
+"\tConductor: %s\n"
+"\tMòdul Propietari: %s\n"
+"\tClient: %s\n"
+"\tSink: %u\n"
+"\tEspecificació de mostra: %s\n"
+"\tMapa de canals: %s\n"
+"\tFormat: %s\n"
+"\tEn suro: %s\n"
+"\tSilencia: %s\n"
+"\tVolum: %s\n"
+"\t        saldo %0.2f\n"
+"\tLatència de la memòria intermèdia: %0.0f usec\n"
+"\tLatència de l'enllaç: %0.0f usec\n"
+"\tMètode de remostreig: %s\n"
+"\tPropietats:\n"
+"\t\t%s\n"
 
 #: src/utils/pactl.c:1413 src/utils/pactl.c:1974 src/utils/pactl.c:2037
 #, c-format
@@ -2734,6 +2785,23 @@ msgid ""
 "\tProperties:\n"
 "\t\t%s\n"
 msgstr ""
+"Sortida d'origen  %u\n"
+"\tConductor: %s\n"
+"\tMòdul Propietari: %s\n"
+"\tClient: %s\n"
+"\tFont: %u\n"
+"\tEspecificació de mostra: %s\n"
+"\tMapa de canals: %s\n"
+"\tFormat: %s\n"
+"\tEn suro: %s\n"
+"\tSilencia: %s\n"
+"\tVolum: %s\n"
+"\t        saldo %0.2f\n"
+"\tLatència de la memòria intermèdia: %0.0f usec\n"
+"\tLatència origen: %0.0f usec\n"
+"\tMètode de remostreig: %s\n"
+"\tPropietats:\n"
+"\t\t%s\n"
 
 #: src/utils/pactl.c:1536
 #, c-format
@@ -2756,6 +2824,18 @@ msgid ""
 "\tProperties:\n"
 "\t\t%s\n"
 msgstr ""
+"Mostra %%u\n"
+"\tNom: %s\n"
+"\tEspecificació de mostra: %s\n"
+"\tMapa de canals: %s\n"
+"\tVolum: %s\n"
+"\t        saldo %0.2f\n"
+"\tDurada: %0.1fs\n"
+"\tMida: %s\n"
+"\tLazy: %s\n"
+"\tNom del fitxer: %s\n"
+"\tPropietats:\n"
+"\t\t%s\n"
 
 #: src/utils/pactl.c:1633 src/utils/pactl.c:1643
 #, c-format
@@ -2763,14 +2843,14 @@ msgid "Failure: %s"
 msgstr "Ha fallat: %s"
 
 #: src/utils/pactl.c:1667
-#, fuzzy, c-format
+#, c-format
 msgid "Send message failed: %s"
 msgstr "Ha fallat read(): %s"
 
 #: src/utils/pactl.c:1695
 #, c-format
 msgid "list-handlers message failed: %s"
-msgstr ""
+msgstr "ha fallat el missatge dels gestors de la llista: %s"
 
 #: src/utils/pactl.c:1711 src/utils/pactl.c:1760
 msgid "list-handlers message response could not be parsed correctly"
@@ -2786,11 +2866,13 @@ msgstr "la resposta del missatge de list-handlers no és una matriu de JSON"
 #, c-format
 msgid "list-handlers message response array element %d is not a JSON object"
 msgstr ""
+"l'element de la matriu de resposta de missatge %d de list-handlers no és un "
+"objecte JSON"
 
 #: src/utils/pactl.c:1800
 #, c-format
 msgid "Failed to unload module: Module %s not loaded"
-msgstr ""
+msgstr "No s'ha pogut descarregar el mòdul: no s'ha carregat el mòdul %s"
 
 #: src/utils/pactl.c:1818
 #, c-format
@@ -2801,7 +2883,11 @@ msgid_plural ""
 "Failed to set volume: You tried to set volumes for %d channels, whereas "
 "channel(s) supported = %d\n"
 msgstr[0] ""
+"No s'ha pogut establir el volum: heu intentat establir els volums per a %d "
+"canal, mentre que el/s canal/s suportat/s  to %d\n"
 msgstr[1] ""
+"No s'ha pogut establir el volum: heu intentat establir els volums per a %d "
+"canals, mentre que el/s canal/s suportat/s  to %d\n"
 
 #: src/utils/pactl.c:2107
 #, c-format
@@ -2838,10 +2924,9 @@ msgstr "font"
 
 #: src/utils/pactl.c:2167
 msgid "sink-input"
-msgstr ""
+msgstr "entrada de l'enfonsament"
 
 #: src/utils/pactl.c:2170
-#, fuzzy
 msgid "source-output"
 msgstr "font"
 
@@ -2855,7 +2940,7 @@ msgstr "client"
 
 #: src/utils/pactl.c:2179
 msgid "sample-cache"
-msgstr ""
+msgstr "mostreig"
 
 #: src/utils/pactl.c:2182
 msgid "server"
@@ -2880,15 +2965,15 @@ msgstr "Especificació de volum invàlida"
 
 #: src/utils/pactl.c:2581
 msgid "Volume outside permissible range.\n"
-msgstr ""
+msgstr "Volum fora de l'interval permès.\n"
 
 #: src/utils/pactl.c:2594
 msgid "Invalid number of volume specifications.\n"
-msgstr ""
+msgstr "El nombre d'especificacions de volum no és vàlid.\n"
 
 #: src/utils/pactl.c:2606
 msgid "Inconsistent volume specification.\n"
-msgstr ""
+msgstr "Especificació de volum incoherent.\n"
 
 #: src/utils/pactl.c:2636 src/utils/pactl.c:2637 src/utils/pactl.c:2638
 #: src/utils/pactl.c:2639 src/utils/pactl.c:2640 src/utils/pactl.c:2641
@@ -2908,31 +2993,31 @@ msgstr "[TIPUS]"
 
 #: src/utils/pactl.c:2640
 msgid "FILENAME [NAME]"
-msgstr ""
+msgstr "NOMFITXER [NOM]"
 
 #: src/utils/pactl.c:2641
 msgid "NAME [SINK]"
-msgstr ""
+msgstr "NOM [SINK]"
 
 #: src/utils/pactl.c:2653
 msgid "NAME|#N VOLUME [VOLUME ...]"
-msgstr ""
+msgstr "NOM VOLUMEN VOLUM [VOLUM ...]"
 
 #: src/utils/pactl.c:2654
 msgid "#N VOLUME [VOLUME ...]"
-msgstr ""
+msgstr "]N VOLUM [VOLUM ...]"
 
 #: src/utils/pactl.c:2655
 msgid "NAME|#N 1|0|toggle"
-msgstr ""
+msgstr "NOM 1N 100|alterna"
 
 #: src/utils/pactl.c:2656
 msgid "#N 1|0|toggle"
-msgstr ""
+msgstr "N 100 alterna"
 
 #: src/utils/pactl.c:2657
 msgid "#N FORMATS"
-msgstr ""
+msgstr "FORMATS  FORMATSN"
 
 #: src/utils/pactl.c:2661
 #, c-format
@@ -2941,9 +3026,14 @@ msgid ""
 "The special names @DEFAULT_SINK@, @DEFAULT_SOURCE@ and @DEFAULT_MONITOR@\n"
 "can be used to specify the default sink, source and monitor.\n"
 msgstr ""
+"\n"
+"Els noms especials ,DEFAULTSINK,, ,DEFAULTSOURCE and i  andDEFAULTMONITOR "
+"and\n"
+"es pot utilitzar per a especificar el conducte, la font i el monitor per "
+"defecte.\n"
 
 #: src/utils/pactl.c:2664
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  -h, --help                            Show this help\n"
@@ -2956,13 +3046,13 @@ msgid ""
 "  -n, --client-name=NAME                How to call this client on the "
 "server\n"
 msgstr ""
-"%s [opcions] ... \n"
+"\n"
+"  %s [opcions] ... \n"
 "\n"
 "  -h, --help                            Mostra aquesta ajuda\n"
 "      --version                         Mostra la versió\n"
 "  -s, --server=SERVIDOR                 Nom del servidor al qual connectar-"
 "se\n"
-"\n"
 
 #: src/utils/pactl.c:2707
 #, c-format
@@ -2976,14 +3066,14 @@ msgstr ""
 "Enllaçat amb libpulse %s\n"
 
 #: src/utils/pactl.c:2751
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid format value '%s'"
 msgstr "Nom de flux de dades invàlid '%s'"
 
 #: src/utils/pactl.c:2778
 #, c-format
 msgid "Specify nothing, or one of: %s"
-msgstr ""
+msgstr "No especifiqueu res, o un de: %s"
 
 #: src/utils/pactl.c:2788
 msgid "Please specify a sample file to load"
@@ -3021,7 +3111,7 @@ msgstr "Heu d'especificar un nom de mòdul i els seus arguments."
 
 #: src/utils/pactl.c:2889
 msgid "You have to specify a module index or name"
-msgstr ""
+msgstr "Heu d'especificar un índex o un nom de mòdul"
 
 #: src/utils/pactl.c:2902
 msgid ""
@@ -3032,7 +3122,7 @@ msgstr ""
 
 #: src/utils/pactl.c:2907 src/utils/pactl.c:2927
 msgid "Invalid suspend specification."
-msgstr ""
+msgstr "Especificació de suspensió no vàlida."
 
 #: src/utils/pactl.c:2922
 msgid ""
@@ -3051,7 +3141,7 @@ msgstr "Heu d'especificar un nom o un índex de conducte i un nom de port"
 
 #: src/utils/pactl.c:2961
 msgid "You have to specify a sink name"
-msgstr ""
+msgstr "Heu d'especificar un nom de lavabo"
 
 #: src/utils/pactl.c:2974
 msgid "You have to specify a source name/index and a port name"
@@ -3059,10 +3149,9 @@ msgstr "Heu d'especificar un nom o un índex de font i un nom de port"
 
 #: src/utils/pactl.c:2985
 msgid "You have to specify a source name"
-msgstr ""
+msgstr "Heu d'especificar un nom d'origen"
 
 #: src/utils/pactl.c:2998 src/utils/pactl.c:3076
-#, fuzzy
 msgid "You have to specify a sink name/index"
 msgstr "Heu d'especificar un nom o un índex de conducte i un volum"
 
@@ -3071,7 +3160,6 @@ msgid "You have to specify a sink name/index and a volume"
 msgstr "Heu d'especificar un nom o un índex de conducte i un volum"
 
 #: src/utils/pactl.c:3021 src/utils/pactl.c:3101
-#, fuzzy
 msgid "You have to specify a source name/index"
 msgstr "Heu d'especificar un nom o un índex de font i un volum"
 
@@ -3097,7 +3185,6 @@ msgid "Invalid source output index"
 msgstr "Índex incorrecte de sortida de l'origen"
 
 #: src/utils/pactl.c:3086
-#, fuzzy
 msgid ""
 "You have to specify a sink name/index and a mute action (0, 1, or 'toggle')"
 msgstr ""
@@ -3109,13 +3196,11 @@ msgid "Invalid mute specification"
 msgstr "Especificació incorrecta de silenci"
 
 #: src/utils/pactl.c:3111
-#, fuzzy
 msgid ""
 "You have to specify a source name/index and a mute action (0, 1, or 'toggle')"
 msgstr "Heu d'especificar un nom o un índex de font i un booleà de silenciat"
 
 #: src/utils/pactl.c:3126
-#, fuzzy
 msgid ""
 "You have to specify a sink input index and a mute action (0, 1, or 'toggle')"
 msgstr ""
@@ -3126,7 +3211,6 @@ msgid "Invalid sink input index specification"
 msgstr "Especificació d'índex d'entrada del conducte invàlida"
 
 #: src/utils/pactl.c:3144
-#, fuzzy
 msgid ""
 "You have to specify a source output index and a mute action (0, 1, or "
 "'toggle')"
@@ -3135,12 +3219,10 @@ msgstr ""
 "silenci"
 
 #: src/utils/pactl.c:3149
-#, fuzzy
 msgid "Invalid source output index specification"
 msgstr "Especificació d'índex d'entrada del conducte invàlida"
 
 #: src/utils/pactl.c:3162
-#, fuzzy
 msgid "You have to specify at least an object path and a message name"
 msgstr "Heu d'especificar un nom o un índex de conducte i un nom de port"
 
@@ -3149,9 +3231,10 @@ msgid ""
 "Excess arguments given, they will be ignored. Note that all message "
 "parameters must be given as a single string."
 msgstr ""
+"S'han donat arguments excessius, s'ignoraran. Tingueu en compte que tots els "
+"paràmetres del missatge s'han de donar com una única cadena."
 
 #: src/utils/pactl.c:3182
-#, fuzzy
 msgid ""
 "You have to specify a sink index and a semicolon-separated list of supported "
 "formats"
@@ -3161,10 +3244,12 @@ msgstr ""
 #: src/utils/pactl.c:3194
 msgid "You have to specify a card name/index, a port name and a latency offset"
 msgstr ""
+"Heu d'especificar un nom/índex de targeta, un nom de port i un desplaçament "
+"de latència"
 
 #: src/utils/pactl.c:3201
 msgid "Could not parse latency offset"
-msgstr ""
+msgstr "No s'ha pogut analitzar el desplaçament de latència"
 
 #: src/utils/pactl.c:3213
 msgid "No valid command specified."
@@ -3211,7 +3296,7 @@ msgid "WARNING: Child process terminated by signal %u\n"
 msgstr "ADVERTÈNCIA: procés fill acabat pel senyal %u\n"
 
 #: src/utils/pasuspender.c:228
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s [options] -- PROGRAM [ARGUMENTS ...]\n"
 "\n"
